@@ -1,0 +1,25 @@
+{
+  "canisters": {
+    "api_rate_limiter_backend": {
+      "main": "src/api_rate_limiter_backend/main.mo",
+      "type": "motoko"
+    },
+    "api_rate_limiter_frontend": {
+      "dependencies": [
+        "api_rate_limiter_backend"
+      ],
+      "source": [
+        "src/api_rate_limiter_frontend/assets"
+      ],
+      "type": "assets"
+    }
+  },
+  "defaults": {
+    "build": {
+      "args": "",
+      "packtool": ""
+    }
+  },
+  "output_env_file": ".env",
+  "version": 1
+}
