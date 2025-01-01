@@ -1,59 +1,61 @@
-# `api_rate_limiter`
+# API Rate Limiter
 
-Welcome to your new `api_rate_limiter` project and to the Internet Computer development community. By default, creating a new project adds this README and some template files to your project directory. You can edit these template files to customize your project and to include your own code to speed up the development cycle.
+## Project Overview
 
-To get started, you might want to explore the project directory structure and the default configuration file. Working with this project in your development environment will not affect any production deployment or identity tokens.
+The API Rate Limiter is a backend solution designed to manage and enforce rate limits on API requests. By controlling the rate of incoming requests, it prevents abuse, ensures fair usage, and optimizes server performance. This solution employs rate limits at various time intervals (second, minute, and hour) to enforce usage restrictions.
 
-To learn more before you start working with `api_rate_limiter`, see the following documentation available online:
+This project is implemented in Motoko and deployed on the Internet Computer (IC) ecosystem. It includes features such as client registration, request logging, and real-time usage tracking.
 
-- [Quick Start](https://internetcomputer.org/docs/current/developer-docs/setup/deploy-locally)
-- [SDK Developer Tools](https://internetcomputer.org/docs/current/developer-docs/setup/install)
-- [Motoko Programming Language Guide](https://internetcomputer.org/docs/current/motoko/main/motoko)
-- [Motoko Language Quick Reference](https://internetcomputer.org/docs/current/motoko/main/language-manual)
+## Features
 
-If you want to start working on your project right away, you might want to try the following commands:
+- **Client Registration**: Clients can register with the API to obtain a unique API key.
+- **Rate Limiting**: Limits are enforced for the number of requests a client can make per second, minute, and hour.
+- **Request Logging**: Every API request made by a client is logged with a timestamp.
+- **Usage Tracking**: Clients can check their usage in terms of requests made in the last second, minute, and hour.
+- **Rate Limit Enforcement**: The system checks if a client’s request rate exceeds the specified limits before processing their request.
+- **Log Compression**: Old logs beyond the last hour are periodically removed to optimize storage.
 
-```bash
-cd api_rate_limiter/
-dfx help
-dfx canister --help
-```
+## Technologies Used
 
-## Running the project locally
+- **Motoko**: A programming language for developing applications on the Internet Computer.
+- **Internet Computer (IC)**: A decentralized blockchain network for building decentralized applications.
 
-If you want to test your project locally, you can use the following commands:
+## How It Works
 
-```bash
-# Starts the replica, running in the background
-dfx start --background
+1. **Client Registration**: When a new client registers, they receive a unique API key.
+2. **Request Logging**: Every time a client makes a request, it is logged along with the timestamp.
+3. **Rate Limit Checking**: Each request is checked against the rate limits (requests per second, minute, and hour). If the limits are exceeded, the request is rejected.
+4. **Usage Tracking**: Clients can query the system to see how many requests they have made in the past second, minute, and hour.
+5. **Log Compression**: Logs older than one hour are removed periodically to save storage.
 
-# Deploys your canisters to the replica and generates your candid interface
-dfx deploy
-```
+## API Endpoints
 
-Once the job completes, your application will be available at `http://localhost:4943?canisterId={asset_canister_id}`.
+- **POST `/registerClient`**: Registers a new client and returns a unique API key.
+- **POST `/handleRequest`**: Processes an API request after checking rate limits. Returns an error message if rate limits are exceeded.
+- **GET `/checkUsage`**: Checks the number of requests made in the last second, minute, and hour for a given API key.
+- **POST `/compressLogs`**: Compresses old request logs that are older than one hour.
 
-If you have made changes to your backend canister, you can generate a new candid interface with
+## Setup
 
-```bash
-npm run generate
-```
+### Prerequisites
 
-at any time. This is recommended before starting the frontend development server, and will be run automatically any time you run `dfx deploy`.
+- [Motoko](https://www.internetcomputer.org/docs/current/motoko/) programming environment
+- [Internet Computer SDK](https://sdk.dfinity.org/docs/index.html)
 
-If you are making frontend changes, you can start a development server with
+### Installation
 
-```bash
-npm start
-```
+1. Clone the repository to your local machine.
+2. Follow the instructions in the [Internet Computer SDK documentation](https://sdk.dfinity.org/docs/index.html) to set up your environment.
+3. Deploy the project to the Internet Computer using the Motoko framework.
 
-Which will start a server at `http://localhost:8080`, proxying API requests to the replica at port 4943.
+### Running the Application
 
-### Note on frontend environment variables
+Once the application is deployed on the Internet Computer, you can interact with the API using the provided endpoints to register clients, handle requests, and track usage.
 
-If you are hosting frontend code somewhere without using DFX, you may need to make one of the following adjustments to ensure your project does not fetch the root key in production:
+## Contributing
 
-- set`DFX_NETWORK` to `ic` if you are using Webpack
-- use your own preferred method to replace `process.env.DFX_NETWORK` in the autogenerated declarations
-  - Setting `canisters -> {asset_canister_id} -> declarations -> env_override to a string` in `dfx.json` will replace `process.env.DFX_NETWORK` with the string in the autogenerated declarations
-- Write your own `createActor` constructor
+Contributions are welcome! If you have suggestions or improvements for the project, feel free to open an issue or create a pull request.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
